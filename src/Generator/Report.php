@@ -4,7 +4,6 @@ namespace EDI\Generator;
 
 use DateTime;
 use EDI\Generator\Segment\NameAndAddress;
-use parent;
 
 
 /**

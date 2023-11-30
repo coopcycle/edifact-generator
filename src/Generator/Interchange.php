@@ -20,8 +20,8 @@ class Interchange
     private $composed;
 
     public function __construct(
-        string $sender,
-        string $receiver,
+        $sender,
+        $receiver,
         ?string $date = null,
         ?string $time = null,
         ?string $interchangeCode = null

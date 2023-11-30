@@ -4,6 +4,7 @@ namespace EDI\Generator;
 
 use DateTime;
 use EDI\Generator\Segment\NameAndAddress;
+use parent;
 
 
 /**
@@ -19,7 +20,7 @@ class Report extends Message
     private $reason = null;
     private $dtm = [];
     private $comment = null;
-    private $pod = null;
+    private $pod = [];
     private $receipt = null;
 
     /**
@@ -76,9 +77,19 @@ class Report extends Message
         return $this;
     }
 
-    public function setPOD(?string $url): self
+
+    public function addPOD(string $url): self
     {
-        $this->pod = ['COM', $url, 'FD'];
+        $this->pod[] = ['COM', $url, 'FT'];
+        return $this;
+    }
+
+    /**
+     * @param array<string> $urls
+     */
+    public function setPOD(array $urls): self
+    {
+        $this->pod = array_map(fn ($url) => ['COM', $url, 'FT'], $urls);
         return $this;
     }
 
@@ -139,8 +150,8 @@ class Report extends Message
             $this->messageContent[] = $this->comment;
         }
 
-        if (!is_null($this->pod)) {
-            $this->messageContent[] = $this->pod;
+        foreach ($this->pod as $pod) {
+            $this->messageContent[] = $pod;
         }
 
         if (!is_null($this->receipt)) {

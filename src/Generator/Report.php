@@ -5,15 +5,12 @@ namespace EDI\Generator;
 use DateTime;
 use EDI\Generator\Segment\NameAndAddress;
 
-
 /**
  * Class Report
  * @package EDI\Generator
  */
 class Report extends Message
 {
-
-
     private $nad = [];
     private $ref = null;
     private $reason = null;
@@ -21,6 +18,7 @@ class Report extends Message
     private $comment = null;
     private $pod = [];
     private $receipt = null;
+    private $dsj = null;
 
     /**
      * Construct.
@@ -49,7 +47,7 @@ class Report extends Message
             $sAssociationAssignedCode
         );
 
-        $this->setDTM(new DateTime(), 'DSJ');
+        $this->dsj = new DateTime();
     }
 
     public function setReference(?string $sRef): self
@@ -116,6 +114,10 @@ class Report extends Message
      */
     public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
+        if (is_null($this->dsj)) {
+            $this->setDTM(new DateTime(), 'DSJ');
+        }
+
         $this->messageContent = [
             ['BGM', '', $this->messageID, ''],
         ];

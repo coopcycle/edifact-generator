@@ -122,6 +122,7 @@ class Report extends Message
             ['BGM', '', $this->messageID, ''],
         ];
 
+        /** @var $nad NameAndAddress */
         foreach ($this->nad as $nad) {
             $nad->compose();
             $this->messageContent[] = $nad->getComposed();

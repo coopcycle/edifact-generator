@@ -235,10 +235,7 @@ class NameAndAddress extends Segment
         }
 
         // Name And Address
-
-        if (count($this->aNameAndAddress) > 0) {
-            $aComposed[] = $this->aNameAndAddress;
-        }
+        $aComposed[] = $this->aNameAndAddress;
 
         // Party Name
 

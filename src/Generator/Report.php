@@ -77,7 +77,7 @@ class Report extends Message
 
     public function addPOD(string $url): self
     {
-        $this->pod[] = ['COM', $url, 'FT'];
+        $this->pod[] = ['COM', [$url, 'FT']];
         return $this;
     }
 
@@ -86,7 +86,7 @@ class Report extends Message
      */
     public function setPOD(array $urls): self
     {
-        $this->pod = array_map(fn ($url) => ['COM', $url, 'FT'], $urls);
+        $this->pod = array_map(fn ($url) => ['COM', [$url, 'FT']], $urls);
         return $this;
     }
 

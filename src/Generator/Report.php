@@ -16,6 +16,7 @@ class Report extends Message
     private $reason = null;
     private $dtm = [];
     private $comment = null;
+    private $contact = null;
     private $pod = [];
     private $receipt = null;
     private $dsj = null;
@@ -65,6 +66,17 @@ class Report extends Message
     public function setDTM(\DateTime $datetime, string $qual = 'DDI'): self
     {
         $this->dtm[] = ['DTM', $qual, $datetime->format('ymd'), $datetime->format('Hi')];
+        return $this;
+    }
+
+    /**
+     * Name of the person or service responsible for the event (3412),
+     * e.g. the recipient signing the receipt.
+     */
+    public function setContact(?string $contact): self
+    {
+        $contact = is_null($contact) ? '' : trim($contact);
+        $this->contact = $contact === '' ? null : ['CTA', mb_substr($contact, 0, 35)];
         return $this;
     }
 
@@ -146,6 +158,10 @@ class Report extends Message
         // Set dtm
         foreach ($this->dtm as $dtm) {
             $this->messageContent[] = $dtm;
+        }
+
+        if (!is_null($this->contact)) {
+            $this->messageContent[] = $this->contact;
         }
 
         if (!is_null($this->comment)) {

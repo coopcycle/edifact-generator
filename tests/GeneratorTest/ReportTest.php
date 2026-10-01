@@ -45,6 +45,19 @@ class ReportTest extends TestCase
         $this->assertStringContainsString("CTA+" . str_repeat('é', 35) . "'", $message);
     }
 
+    public function testNoComment()
+    {
+        $this->assertStringNotContainsString('TXT', $this->encode($this->report()->setComment(null)));
+        $this->assertStringNotContainsString('TXT', $this->encode($this->report()->setComment('  ')));
+    }
+
+    public function testCommentIsTruncatedTo70Characters()
+    {
+        $message = $this->encode($this->report()->setComment(str_repeat('é', 80)));
+
+        $this->assertStringContainsString("TXT+DEL+" . str_repeat('é', 70) . "'", $message);
+    }
+
     public function testNoContact()
     {
         $this->assertStringNotContainsString('CTA', $this->encode($this->report()));

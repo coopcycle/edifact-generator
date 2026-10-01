@@ -80,9 +80,14 @@ class Report extends Message
         return $this;
     }
 
+    /**
+     * Remarks (0078). INOVERT rejects an empty TXT segment: none is sent
+     * without a comment.
+     */
     public function setComment(?string $comment): self
     {
-        $this->comment = ['TXT', 'DEL', $comment];
+        $comment = is_null($comment) ? '' : trim($comment);
+        $this->comment = $comment === '' ? null : ['TXT', 'DEL', mb_substr($comment, 0, 70)];
         return $this;
     }
 

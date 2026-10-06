@@ -76,7 +76,8 @@ class Report extends Message
     public function setContact(?string $contact): self
     {
         $contact = is_null($contact) ? '' : trim($contact);
-        $this->contact = $contact === '' ? null : ['CTA', mb_substr($contact, 0, 35)];
+        // CTA+3139+C056(3413:3412): the name goes in 3412, e.g. CTA++:JEAN DUPONT
+        $this->contact = $contact === '' ? null : ['CTA', '', ['', mb_substr($contact, 0, 35)]];
         return $this;
     }
 

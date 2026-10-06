@@ -35,14 +35,14 @@ class ReportTest extends TestCase
     {
         $message = $this->encode($this->report()->setContact('Jean Dupont'));
 
-        $this->assertStringContainsString("DTM+DSJ+260929+1000'CTA+Jean Dupont'TXT+DEL+Remarks'", $message);
+        $this->assertStringContainsString("DTM+DSJ+260929+1000'CTA++:Jean Dupont'TXT+DEL+Remarks'", $message);
     }
 
     public function testContactIsTruncatedTo35Characters()
     {
         $message = $this->encode($this->report()->setContact(str_repeat('é', 40)));
 
-        $this->assertStringContainsString("CTA+" . str_repeat('é', 35) . "'", $message);
+        $this->assertStringContainsString("CTA++:" . str_repeat('é', 35) . "'", $message);
     }
 
     public function testNoComment()
